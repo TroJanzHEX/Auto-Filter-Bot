@@ -17,7 +17,7 @@ from config import LOGCHANNEL_ID
  
 
 @Client.on_message(filters.group & filters.text & ~filters.command(["start","help","about","upgrade","donate","add","deletechannel","currentchannel"]))
-async def dmca(client: Bot, message: Message):
+async def filter(client: Bot, message: Message):
 
       buttons = []
       
