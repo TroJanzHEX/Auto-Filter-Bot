@@ -57,7 +57,7 @@ async def cb_handler(client: Bot, query:CallbackQuery):
             async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=query.message.reply_to_message.text,filter='document',limit=20,offset=50):
                 name = msg.document.file_name
                 link = msg.link
-                buttons.append([InlineKeyboardButton(text=f"{name}",url=link")])
+                buttons.append([InlineKeyboardButton(text=f"{name}",url=link)])
             await query.edit_message_reply_markup( 
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
