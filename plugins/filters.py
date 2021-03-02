@@ -1,4 +1,8 @@
-import pyrogram
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @trojanzhex
+
+
 from pyrogram.types import (
 InlineKeyboardButton, 
 InlineKeyboardMarkup, 
