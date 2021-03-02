@@ -17,7 +17,7 @@ from pyrogram.types import (
 
 from bot import Bot
 
-from config import LOGCHANNEL_ID
+from config import MAINCHANNEL_ID
 
 
  
@@ -28,7 +28,7 @@ from config import LOGCHANNEL_ID
 )
 async def filter(client: Bot, message: Message):
     buttons = []
-    async for msg in client.USER.search_messages(LOGCHANNEL_ID,query=message.text,filter='document',limit=50):
+    async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text,filter='document',limit=50):
         file_name = msg.document.file_name
         msg_id = msg.message_id                     
         link = msg.link
@@ -54,7 +54,7 @@ async def cb_handler(client: Bot, query:CallbackQuery):
     if query.data == "next":
         try:
             buttons = []
-            async for msg in client.USER.search_messages(LOGCHANNEL_ID,query=query.message.reply_to_message.text,filter='document',limit=20,offset=50):
+            async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=query.message.reply_to_message.text,filter='document',limit=20,offset=50):
                 name = msg.document.file_name
                 link = msg.link
                 buttons.append([InlineKeyboardButton(text=f"{name}",url=link")])
