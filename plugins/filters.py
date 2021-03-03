@@ -21,11 +21,7 @@ from config import MAINCHANNEL_ID
 
 
  
-@Client.on_message(
-    filters.group & filters.text & ~filters.command(
-        ["start", "help", "about", "upgrade", "donate", "add", "deletechannel", "currentchannel"]
-    )
-)
+@Client.on_message(filters.group & filters.text)
 async def filter(client: Bot, message: Message):
     buttons = []
     async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text,filter='document',limit=50):
