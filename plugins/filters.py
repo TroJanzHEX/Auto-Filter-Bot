@@ -23,25 +23,26 @@ from config import MAINCHANNEL_ID
  
 @Client.on_message(filters.group & filters.text)
 async def filter(client: Bot, message: Message):
-    buttons = []
-    async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text,filter='document',limit=10):
-        file_name = msg.document.file_name
-        msg_id = msg.message_id                     
-        link = msg.link
+    if len(message.text) > 2:    
+        buttons = []
+        async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text,filter='document',limit=10):
+            file_name = msg.document.file_name
+            msg_id = msg.message_id                     
+            link = msg.link
+            buttons.append(
+                [InlineKeyboardButton(text=f"{file_name}",url=f"{link}")]
+            )
+        if not buttons:
+            return
+        
         buttons.append(
-            [InlineKeyboardButton(text=f"{file_name}",url=f"{link}")]
+            [InlineKeyboardButton(text=f"NEXT ⏩",callback_data="next1")]
         )
-    if not buttons:
-        return
-    
-    buttons.append(
-        [InlineKeyboardButton(text=f"NEXT ⏩",callback_data="next1")]
-    )
 
-    await message.reply_text(
-        f"<b> Here is the result for {message.text}</b>",
-        reply_markup=InlineKeyboardMarkup(buttons)
-    )
+        await message.reply_text(
+            f"<b> Here is the result for {message.text}</b>",
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
 
 
 
