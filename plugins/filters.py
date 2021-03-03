@@ -3,6 +3,8 @@
 # @trojanzhex
 
 
+import re
+
 from pyrogram import (
     filters,
     Client
@@ -23,6 +25,9 @@ from config import MAINCHANNEL_ID
  
 @Client.on_message(filters.group & filters.text)
 async def filter(client: Bot, message: Message):
+    if re.findall("((^\/|^,|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
+        return
+
     if len(message.text) > 2:    
         buttons = []
         async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text,filter='document',limit=10):
