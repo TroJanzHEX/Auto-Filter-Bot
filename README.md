@@ -38,6 +38,12 @@
 * Bot will work now :)
 
 
+## You can check the video tutorial on how to deploy
+
+[Click here to see tutorial video](https://youtu.be/KQVYQAOsFYY)
+
+Thanks to [Infotel](https://telegram.dog/Infotel14) and [Erich Daniken](https://telegram.dog/ErichDaniken) for the video
+
 ## Any bugs or errors or suggestions, report at [TroJanzSupport](https://telegram.dog/TroJanzSupport)
 
 
