@@ -18,7 +18,7 @@ from pyrogram.types import (
 )
 
 from bot import Bot
-
+from script import script
 from config import MAINCHANNEL_ID
 
 
@@ -154,5 +154,48 @@ async def cb_handler(client: Bot, query:CallbackQuery):
                 )
             except:
                 await query.answer("No more results found",show_alert=True)
+
+        elif query.data == "start_data":
+
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton("HELP", callback_data="help_data"),
+                    InlineKeyboardButton("ABOUT", callback_data="about_data")],
+                [InlineKeyboardButton("⭕️ JOIN OUR CHANNEL ⭕️", url="https://t.me/TroJanzHEX")]
+            ])
+
+            await query.message.edit_text(
+                script.START_MSG.format(query.from_user.mention),
+                reply_markup=keyboard,
+                disable_web_page_preview=True
+            )
+
+        elif query.data == "help_data":
+
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton("BACK", callback_data="start_data"),
+                    InlineKeyboardButton("ABOUT", callback_data="about_data")],
+                [InlineKeyboardButton("⭕️ SUPPORT ⭕️", url="https://t.me/TroJanzSupport")]
+            ])
+
+            await query.message.edit_text(
+                script.HELP_MSG,
+                reply_markup=keyboard,
+                disable_web_page_preview=True
+            )
+
+        elif query.data == "about_data":
+
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton("BACK", callback_data="help_data"),
+                    InlineKeyboardButton("START", callback_data="start_data")],
+                [InlineKeyboardButton("SOURCE CODE", url="https://github.com/TroJanzHEX/Auto-Filter-Bot")]
+            ])
+
+            await query.message.edit_text(
+                script.ABOUT_MSG,
+                reply_markup=keyboard,
+                disable_web_page_preview=True
+            )
+
     else:
         await query.answer("Thats not for you!!",show_alert=True)
