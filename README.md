@@ -31,9 +31,14 @@
 #### Bot simply search for the files from provided channel according to given query and gives link to those files as buttons!
 
 ## How to use the bot
-* Add your bot and user to your channel with admin rights!
-* Add your bot to group with admin rights.
-* Deploy the bot and you are good to go.
+* Add user account to your channel !
+* Add bot to group with admin rights.
+* Deploy the bot.
+* Once deployed and bot is started, send a message to channel (must do step)
+* Bot will work now :)
+
+
+## Any bugs or errors or suggestions, report @TroJanzSupport
 
 
 ## Installation
