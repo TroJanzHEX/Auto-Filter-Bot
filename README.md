@@ -38,7 +38,7 @@
 * Bot will work now :)
 
 
-## Any bugs or errors or suggestions, report @TroJanzSupport
+## Any bugs or errors or suggestions, report at [TroJanzSupport](https://telegram.dog/TroJanzSupport)
 
 
 ## Installation
