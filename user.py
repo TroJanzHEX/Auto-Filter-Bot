@@ -32,7 +32,7 @@ class User(Client):
         usr_bot_me = await self.get_me()
         self.set_parse_mode("html")
         self.LOGGER(__name__).info(
-            f"@{usr_bot_me.username} based on Pyrogram v{__version__} "
+            f"@{usr_bot_me.username}  started! \n\nSend a message in your channel now!!"
         )
         return (self, usr_bot_me.id)
 
