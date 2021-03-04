@@ -1,20 +1,21 @@
 # Auto Filter Bot
 
 <p align="center">
-  <a href="https://github.com/TroJanzHEX/Auto-Filter-Bot/fork">
-    <img src="https://img.shields.io/github/forks/TroJanzHEX/Auto-Filter-Bot?label=Fork&style=social">
-
-  </a>
-  
   <a href="https://www.python.org">
     <img src="http://ForTheBadge.com/images/badges/made-with-python.svg">
 
-  </a>  
-  
+  </a>
+</p>
+<p align="center">
   <a href="https://github.com/TroJanzHEX/Auto-Filter-Bot/stargazers">
     <img src="https://img.shields.io/github/stars/TroJanzHEX/Auto-Filter-Bot?style=social">
 
   </a>
+  
+  <a href="https://github.com/TroJanzHEX/Auto-Filter-Bot/fork">
+    <img src="https://img.shields.io/github/forks/TroJanzHEX/Auto-Filter-Bot?label=Fork&style=social">
+
+  </a>  
 </p>
 
 [![TroJanz](https://img.shields.io/badge/TroJanzHEX-Channel-orange?style=for-the-badge&logo=telegram)](https://telegram.dog/TroJanzHEX)  
