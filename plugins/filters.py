@@ -154,6 +154,10 @@ async def cb_handler(client: Bot, query: CallbackQuery):
                 return
 
 
+        elif query.data == "pages":
+            await query.answer()
+
+
         elif query.data == "start_data":
             await query.answer()
             keyboard = InlineKeyboardMarkup([
