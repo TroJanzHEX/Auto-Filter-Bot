@@ -4,6 +4,7 @@
 
 
 import re
+import pyrogram
 
 from pyrogram import (
     filters,
@@ -21,142 +22,140 @@ from bot import Bot
 from script import script
 from config import MAINCHANNEL_ID
 
-
+BUTTONS = {}
  
 @Client.on_message(filters.group & filters.text)
 async def filter(client: Bot, message: Message):
-    if re.findall("((^\/|^,|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
+    if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
         return
 
     if len(message.text) > 2:    
-        buttons = []
-        async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text,filter='document',limit=10):
+        btn = []
+        async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text,filter='document'):
             file_name = msg.document.file_name
             msg_id = msg.message_id                     
             link = msg.link
-            buttons.append(
+            btn.append(
                 [InlineKeyboardButton(text=f"{file_name}",url=f"{link}")]
             )
-        if not buttons:
+
+        if not btn:
             return
-        
+
+        if len(btn) > 10: 
+            btns = list(split_list(btn, 10)) 
+            keyword = f"{message.chat.id}-{message.message_id}"
+            BUTTONS[keyword] = {
+                "total" : len(btns),
+                "buttons" : btns
+            }
+        else:
+            buttons = btn
+            buttons.append(
+                [InlineKeyboardButton(text="📃 Pages 1/1",callback_data="pages")]
+            )
+            await message.reply_text(
+                f"<b> Here is the result for {message.text}</b>",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )
+
+        data = BUTTONS[keyword]
+        btns = {"btn" : f"{data['buttons'][0]}"}
+        buttons = eval(btns["btn"])
+
         buttons.append(
-            [InlineKeyboardButton(text=f"NEXT ⏩",callback_data="next1")]
+            [InlineKeyboardButton(text="NEXT ⏩",callback_data=f"next_0_{keyword}")]
+        )    
+        buttons.append(
+            [InlineKeyboardButton(text=f"📃 Pages 1/{data['total']}",callback_data="pages")]
         )
 
         await message.reply_text(
-            f"<b> Here is the result for {message.text}</b>",
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
-
+                f"<b> Here is the result for {message.text}</b>",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )    
 
 
 @Client.on_callback_query()
-async def cb_handler(client: Bot, query:CallbackQuery):
+async def cb_handler(client: Bot, query: CallbackQuery):
     if query.message.reply_to_message.from_user.id == query.from_user.id:
-        if query.data == "back1":
-            try:
-                buttons = []
-                async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=query.message.reply_to_message.text,filter='document',limit=10,offset=0):
-                    name = msg.document.file_name
-                    link = msg.link
-                    buttons.append([InlineKeyboardButton(text=f"{name}",url=link)])
-       
-                if buttons:
-                    buttons.append(
-                        [InlineKeyboardButton(text=f"NEXT ⏩",callback_data="next1")]
-                    )
-                    
+
+        if query.data.startswith("next"):
+            await query.answer()
+            ident, index, keyword = query.data.split("_")
+            data = BUTTONS[keyword]
+
+            if int(index) == int(data["total"]) - 2:
+                btns = {"btn" : f"{data['buttons'][int(index)+1]}"}
+                buttons = eval(btns["btn"])
+
+                buttons.append(
+                    [InlineKeyboardButton("⏪ BACK", callback_data=f"back_{int(index)+1}_{keyword}")]
+                )
+                buttons.append(
+                    [InlineKeyboardButton(f"📃 Pages {int(index)+2}/{data['total']}", callback_data="pages")]
+                )
+
                 await query.edit_message_reply_markup( 
                     reply_markup=InlineKeyboardMarkup(buttons)
                 )
-            except:
-                await query.answer("No more results found",show_alert=True)
+                return
+            else:
+                btns = {"btn" : f"{data['buttons'][int(index)+1]}"}
+                buttons = eval(btns["btn"])
 
-        elif (query.data == "next1") or (query.data == "back2"):
-            try:
-                buttons = []
-                async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=query.message.reply_to_message.text,filter='document',limit=10,offset=10):
-                    name = msg.document.file_name
-                    link = msg.link
-                    buttons.append([InlineKeyboardButton(text=f"{name}",url=link)])
-       
-                if buttons:
-                    buttons.append(
-                        [InlineKeyboardButton(text=f"⏪ BACK",callback_data="back1"),
-                            InlineKeyboardButton(text=f"NEXT ⏩",callback_data="next2")]
-                    )
-                    
+                buttons.append(
+                    [InlineKeyboardButton("⏪ BACK", callback_data=f"back_{int(index)+1}_{keyword}"),InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{int(index)+1}_{keyword}")]
+                )
+                buttons.append(
+                    [InlineKeyboardButton(f"📃 Pages {int(index)+2}/{data['total']}", callback_data="pages")]
+                )
+
                 await query.edit_message_reply_markup( 
                     reply_markup=InlineKeyboardMarkup(buttons)
                 )
-            except:
-                await query.answer("No more results found",show_alert=True)
+                return
 
 
-        elif (query.data == "next2") or (query.data == "back3"):
-            try:
-                buttons = []
-                async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=query.message.reply_to_message.text,filter='document',limit=10,offset=20):
-                    name = msg.document.file_name
-                    link = msg.link
-                    buttons.append([InlineKeyboardButton(text=f"{name}",url=link)])
-     
-                if buttons:
-                    buttons.append(
-                        [InlineKeyboardButton(text=f"⏪ BACK",callback_data="back2"),
-                            InlineKeyboardButton(text=f"NEXT ⏩",callback_data="next3")]
-                    )
-                    
+        elif query.data.startswith("back"):
+            await query.answer()
+            ident, index, keyword = query.data.split("_")
+            data = BUTTONS[keyword] 
+
+            if int(index) == 1:
+                btns = {"btn" : f"{data['buttons'][int(index)-1]}"}
+                buttons = eval(btns["btn"])
+
+                buttons.append(
+                    [InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{int(index)-1}_{keyword}")]
+                )
+                buttons.append(
+                    [InlineKeyboardButton(f"📃 Pages {int(index)}/{data['total']}", callback_data="pages")]
+                )
+
                 await query.edit_message_reply_markup( 
                     reply_markup=InlineKeyboardMarkup(buttons)
                 )
-            except:
-                await query.answer("No more results found",show_alert=True)
+                return   
+            else:
+                btns = {"btn" : f"{data['buttons'][int(index)-1]}"}
+                buttons = eval(btns["btn"])
 
+                buttons.append(
+                    [InlineKeyboardButton("⏪ BACK", callback_data=f"back_{int(index)-1}_{keyword}"),InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{int(index)-1}_{keyword}")]
+                )
+                buttons.append(
+                    [InlineKeyboardButton(f"📃 Pages {int(index)}/{data['total']}", callback_data="pages")]
+                )
 
-        elif (query.data == "next3") or (query.data == "back4"):
-            try:
-                buttons = []
-                async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=query.message.reply_to_message.text,filter='document',limit=10,offset=30):
-                    name = msg.document.file_name
-                    link = msg.link
-                    buttons.append([InlineKeyboardButton(text=f"{name}",url=link)])
-     
-                if buttons:
-                    buttons.append(
-                        [InlineKeyboardButton(text=f"⏪ BACK",callback_data="back3"),
-                            InlineKeyboardButton(text=f"NEXT ⏩",callback_data="next4")]
-                    )
-                    
                 await query.edit_message_reply_markup( 
                     reply_markup=InlineKeyboardMarkup(buttons)
                 )
-            except:
-                await query.answer("No more results found",show_alert=True)
-                
+                return
 
-        elif query.data == "next4":
-            try:
-                buttons = []
-                async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=query.message.reply_to_message.text,filter='document',limit=10,offset=40):
-                    name = msg.document.file_name
-                    link = msg.link
-                    buttons.append([InlineKeyboardButton(text=f"{name}",url=link)])
-     
-                if buttons:
-                    buttons.append(
-                        [InlineKeyboardButton(text=f"⏪ BACK",callback_data="back4")]
-                    )
-                    
-                await query.edit_message_reply_markup( 
-                    reply_markup=InlineKeyboardMarkup(buttons)
-                )
-            except:
-                await query.answer("No more results found",show_alert=True)
 
         elif query.data == "start_data":
-
+            await query.answer()
             keyboard = InlineKeyboardMarkup([
                 [InlineKeyboardButton("HELP", callback_data="help_data"),
                     InlineKeyboardButton("ABOUT", callback_data="about_data")],
@@ -169,8 +168,9 @@ async def cb_handler(client: Bot, query:CallbackQuery):
                 disable_web_page_preview=True
             )
 
-        elif query.data == "help_data":
 
+        elif query.data == "help_data":
+            await query.answer()
             keyboard = InlineKeyboardMarkup([
                 [InlineKeyboardButton("BACK", callback_data="start_data"),
                     InlineKeyboardButton("ABOUT", callback_data="about_data")],
@@ -183,8 +183,9 @@ async def cb_handler(client: Bot, query:CallbackQuery):
                 disable_web_page_preview=True
             )
 
-        elif query.data == "about_data":
 
+        elif query.data == "about_data":
+            await query.answer()
             keyboard = InlineKeyboardMarkup([
                 [InlineKeyboardButton("BACK", callback_data="help_data"),
                     InlineKeyboardButton("START", callback_data="start_data")],
@@ -197,5 +198,11 @@ async def cb_handler(client: Bot, query:CallbackQuery):
                 disable_web_page_preview=True
             )
 
+
     else:
         await query.answer("Thats not for you!!",show_alert=True)
+
+
+def split_list(l, n):
+    for i in range(0, len(l), n):
+        yield l[i:i + n]  
