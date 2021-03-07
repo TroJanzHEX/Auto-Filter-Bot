@@ -58,6 +58,7 @@ async def filter(client: Bot, message: Message):
                 f"<b> Here is the result for {message.text}</b>",
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
+            return
 
         data = BUTTONS[keyword]
         buttons = data['buttons'][0].copy()
