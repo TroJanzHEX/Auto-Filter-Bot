@@ -46,6 +46,10 @@ class Bot(Client):
             f"@{usr_bot_me.username}  started! "
         )
         self.USER, self.USER_ID = await User().start()
+        await self.USER.send_message(
+            chat_id=usr_bot_me.username,
+            text="😬🤒🤒"
+        )
 
     async def stop(self, *args):
         await super().stop()
