@@ -3,7 +3,8 @@ class script(object):
 
     START_MSG = """ <b>Hi {}
 
-ഈ bot തികച്ചും seven screen movies നു വേണ്ടി മാത്രമാണ് 
+hi i am a autofilterbot
+maintened by @AKFROLICX
 
 
     HELP_MSG = """<b>
