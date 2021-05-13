@@ -17,12 +17,12 @@ async def start(client, message):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("HELP", callback_data="help_data"),
-                        InlineKeyboardButton("ABOUT", callback_data="about_data"),
+                        InlineKeyboardButton("சேனல் ", url="https://t.me/aedahamlibrary1"),
+                        InlineKeyboardButton("சேனல் ", url="https://t.me/librarytamil"),
                     ],
                     [
                         InlineKeyboardButton(
-                            "⭕️ JOIN OUR CHANNEL ⭕️", url="https://t.me/TroJanzHEX")
+                            "JOIN OUR GROUP", url="https://t.me/aedahamlibrary_noolakam")
                     ]
                 ]
             ),
@@ -40,13 +40,12 @@ async def help(client, message):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("BACK", callback_data="start_data"),
-                        InlineKeyboardButton("ABOUT", callback_data="about_data"),
+                        InlineKeyboardButton("சேனல் ", url="https://t.me/aedahamlibrary1"),
+                        InlineKeyboardButton("சேனல் ", url="https://t.me/librarytamil"),
                     ],
                     [
                         InlineKeyboardButton(
-                            "⭕️ SUPPORT ⭕️", url="https://t.me/TroJanzSupport")
-                    ]
+                            "JOIN OUR GROUP", url="https://t.me/aedahamlibrary_noolakam")                   ]
                 ]
             ),
             reply_to_message_id=message.message_id
@@ -63,13 +62,12 @@ async def about(client, message):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("BACK", callback_data="help_data"),
-                        InlineKeyboardButton("START", callback_data="start_data"),
+                        InlineKeyboardButton("சேனல் ", url="https://t.me/aedahamlibrary1"),
+                        InlineKeyboardButton("சேனல் ", url="https://t.me/librarytamil"),
                     ],
                     [
                         InlineKeyboardButton(
-                            "SOURCE CODE", url="https://github.com/TroJanzHEX/Auto-Filter-Bot")
-                    ]
+                            "JOIN OUR GROUP", url="https://t.me/aedahamlibrary_noolakam")                    ]
                 ]
             ),
             reply_to_message_id=message.message_id
