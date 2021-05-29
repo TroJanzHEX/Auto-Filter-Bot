@@ -1,16 +1,16 @@
 {
-    "name": "Auto Filter Bot",
+    "name": "Anikha Auto Filter Bot",
     "description": "Kind of a filter bot where you don't have to add filters manually.",
     "logo": "https://telegra.ph/file/71aaa621508cd696ab538.jpg",
     "keywords": [
         "Auto",
         "Filter",
         "Telegram Bot",
-        "TroJanzHEX"
+        "KR KANNADA ROCKERS"
     ],
-    "website": "https://TroJanzHEX.me",
-    "repository": "https://github.com/TroJanzHEX/Auto-Filter-Bot",
-    "success_url": "https://telegram.dog/TroJanzHEX",
+    "GROUP": "https://KR_KANNADA_ROCKERS.me",
+    "CHANNEL": "https://t.me/ROCKHDMOVIES2021",
+    "REQUEST GROUP": "https://t.me/MCrequest17",
     "env": {
         "TG_BOT_TOKEN": {
             "description": "You Telegram Bot Token from @BotFather",
@@ -35,7 +35,7 @@
     },
     "buildpacks": [
         {
-            "url": "heroku/python"
+            "url": "https://t.me/KR_KANNADA_ROCKERS"
         }
     ],
     "formation": {
