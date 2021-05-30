@@ -1,16 +1,16 @@
 {
-    "name": "Auto Filter Bot",
+    "NAME": "YouTube Downloader BoT",
     "description": "Kind of a filter bot where you don't have to add filters manually.",
     "logo": "https://telegra.ph/file/71aaa621508cd696ab538.jpg",
     "keywords": [
         "Auto",
         "Filter",
         "Telegram Bot",
-        "TroJanzHEX"
+        "KR KANNADA ROCKERS"
     ],
-    "website": "https://TroJanzHEX.me",
-    "repository": "https://github.com/TroJanzHEX/Auto-Filter-Bot",
-    "success_url": "https://telegram.dog/TroJanzHEX",
+    "MY° ۝ ° FOTHER": "https://t.me/sachin_official_admin.me",
+    "GROUP": "https://KR_KANNADA_ROCKERS",
+    "YouTube Channel": "https://t.me/KR_YouTubeUpdater",
     "env": {
         "TG_BOT_TOKEN": {
             "description": "You Telegram Bot Token from @BotFather",
