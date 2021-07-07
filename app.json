@@ -1,16 +1,16 @@
 {
-    "name": "Auto Filter Bot",
+    "name": "kiccha Auto Filter Bot",
     "description": "Kind of a filter bot where you don't have to add filters manually.",
-    "logo": "https://telegra.ph/file/71aaa621508cd696ab538.jpg",
+    "logo": "https://telegra.ph/file/52714d7aec32e13ee51a4.jpg",
     "keywords": [
         "Auto",
         "Filter",
         "Telegram Bot",
         "TroJanzHEX"
     ],
-    "website": "https://TroJanzHEX.me",
+    "website": "t.me/KicchaRequest.me",
     "repository": "https://github.com/TroJanzHEX/Auto-Filter-Bot",
-    "success_url": "https://telegram.dog/TroJanzHEX",
+    "success_url": "t.me/KicchaRequest",
     "env": {
         "TG_BOT_TOKEN": {
             "description": "You Telegram Bot Token from @BotFather",
@@ -31,8 +31,15 @@
         "MAINCHANNEL_ID": {
             "description": "ID of Channel from which the bot should search files",
             "value": ""
-        }
-    },
+        },
+        "JOIN_MAIN_CHANNEL": {
+            "description": "ID of Channel from which the bot should Join The Main Channel",
+            "value": ""
+        },
+        "TEXT_MEG_PH": {
+            "description": "Your Channel Logo @MT_Telegraph_BoT ",
+            "value"; ""
+   },
     "buildpacks": [
         {
             "url": "heroku/python"
