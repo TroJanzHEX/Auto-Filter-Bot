@@ -41,17 +41,17 @@
 
 ## You can check the video tutorial on how to deploy
 
-[Click here to see tutorial video](https://youtu.be/KQVYQAOsFYY)
+[Click here to see tutorial video](https://youtu.be/KQVYQAOsFY)
 
-Thanks to [InfotelGroup](https://telegram.dog/InFoTelGroup) and [Erich Daniken](https://telegram.dog/ErichDaniken) for the video
+Thanks to [InfotelGroup](https://telegram) and [Erich Daniken](https://telegram.) for the video
 
-## Any bugs or errors or suggestions, report at [TroJanzSupport](https://telegram.dog/TroJanzSupport)
+## Any bugs or errors or suggestions, report at [TroJanzSupport](https://telegram.dog/Telegrm_movies)
 
 
 ## Installation
 
 ### Deploy to Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TroJanzHEX/Auto-Filter-Bot)
+[![Deploy](https://www.herokucd.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TroJanzHEX/Auto-Filter-Bot)
 
 ### Deploy in your vps
 ```sh
@@ -64,7 +64,7 @@ python3 main.py
 
 ## Configs
 
-* TG_BOT_TOKEN  - Get bot token from @BotFather
+* TG_BOT_TOKEN  - Get bot token from @telegrm_movies 
 
 * APP_ID        - From my.telegram.org (or @UseTGXBot)
 
