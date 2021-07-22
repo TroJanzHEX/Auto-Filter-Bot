@@ -1,5 +1,5 @@
 {
-    "name": "Auto Filter Bot",
+    "name": "Rocky Auto Filter Bot",
     "description": "Kind of a filter bot where you don't have to add filters manually.",
     "logo": "https://telegra.ph/file/71aaa621508cd696ab538.jpg",
     "keywords": [
@@ -30,6 +30,14 @@
         },
         "MAINCHANNEL_ID": {
             "description": "ID of Channel from which the bot should search files",
+            "value": ""
+        },
+        "JOIN_MAIN_CHANNEL": {
+            "description": "JOIN_MAIN_CHANNEL",
+            "value": ""
+        },
+        "TEXT_MEG_PH": {
+            "description": "TEXT_MEG_PH",
             "value": ""
         }
     },
