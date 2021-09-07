@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# @trojanzhex
+# @KicchaRequest
 
 
 import re
@@ -20,7 +20,9 @@ from pyrogram.types import (
 
 from bot import Bot
 from script import script
-from config import MAINCHANNEL_ID
+from database.mdb import searchquery
+from plugins.channel import deleteallfilters
+from config import AUTH_USERS
 
 BUTTONS = {}
  
@@ -29,15 +31,20 @@ async def filter(client: Bot, message: Message):
     if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
         return
 
-    if len(message.text) > 2:    
+    if 2 < len(message.text) < 50:    
         btn = []
-        async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text,filter='document'):
-            file_name = msg.document.file_name
-            msg_id = msg.message_id                     
-            link = msg.link
-            btn.append(
-                [InlineKeyboardButton(text=f"{file_name}",url=f"{link}")]
-            )
+
+        group_id = message.chat.id
+        name = message.text
+
+        filenames, links = await searchquery(group_id, name)
+        if filenames and links:
+            for filename, link in zip(filenames, links):
+                btn.append(
+                    [InlineKeyboardButton(text=f"{filename}",url=f"{link}")]
+                )
+        else:
+            return
 
         if not btn:
             return
@@ -52,10 +59,13 @@ async def filter(client: Bot, message: Message):
         else:
             buttons = btn
             buttons.append(
-                [InlineKeyboardButton(text="📃 Pages 1/1",callback_data="pages")]
+                [InlineKeyboardButton(text="🎵 Pages 1/1 🎵",callback_data="pages")]
             )
             await message.reply_text(
-                f"<b> Here is the result for {message.text}</b>",
+                f"<b>  Title : 
+🎞 Year : 
+🔊 Language :
+💿 Quality :   {message.text}</b>",
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
             return
@@ -64,21 +74,27 @@ async def filter(client: Bot, message: Message):
         buttons = data['buttons'][0].copy()
 
         buttons.append(
-            [InlineKeyboardButton(text="NEXT ⏩",callback_data=f"next_0_{keyword}")]
+            [InlineKeyboardButton(text="🎶 NEXT 🎶",callback_data=f"next_0_{keyword}")]
         )    
         buttons.append(
-            [InlineKeyboardButton(text=f"📃 Pages 1/{data['total']}",callback_data="pages")]
+            [InlineKeyboardButton(text=f"🎵 Pages 1/{data['total']}",callback_data="pages")]
         )
 
         await message.reply_text(
-                f"<b> Here is the result for {message.text}</b>",
+                f"<b> Title : 
+🎞 Year : 
+🔊 Language :
+💿 Quality :  {message.text}</b>",
                 reply_markup=InlineKeyboardMarkup(buttons)
             )    
 
 
 @Client.on_callback_query()
 async def cb_handler(client: Bot, query: CallbackQuery):
-    if query.message.reply_to_message.from_user.id == query.from_user.id:
+    clicked = query.from_user.id
+    typed = query.message.reply_to_message.from_user.id
+
+    if (clicked == typed) or (clicked in AUTH_USERS):
 
         if query.data.startswith("next"):
             await query.answer()
@@ -89,10 +105,10 @@ async def cb_handler(client: Bot, query: CallbackQuery):
                 buttons = data['buttons'][int(index)+1].copy()
 
                 buttons.append(
-                    [InlineKeyboardButton("⏪ BACK", callback_data=f"back_{int(index)+1}_{keyword}")]
+                    [InlineKeyboardButton("🎶 BACK", callback_data=f"back_{int(index)+1}_{keyword}")]
                 )
                 buttons.append(
-                    [InlineKeyboardButton(f"📃 Pages {int(index)+2}/{data['total']}", callback_data="pages")]
+                    [InlineKeyboardButton(f"🎵 Pages {int(index)+2}/{data['total']}", callback_data="pages")]
                 )
 
                 await query.edit_message_reply_markup( 
@@ -103,10 +119,10 @@ async def cb_handler(client: Bot, query: CallbackQuery):
                 buttons = data['buttons'][int(index)+1].copy()
 
                 buttons.append(
-                    [InlineKeyboardButton("⏪ BACK", callback_data=f"back_{int(index)+1}_{keyword}"),InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{int(index)+1}_{keyword}")]
+                    [InlineKeyboardButton("🎸 BACK 🎸", callback_data=f"back_{int(index)+1}_{keyword}"),InlineKeyboardButton("🎹 NEXT 🎹", callback_data=f"next_{int(index)+1}_{keyword}")]
                 )
                 buttons.append(
-                    [InlineKeyboardButton(f"📃 Pages {int(index)+2}/{data['total']}", callback_data="pages")]
+                    [InlineKeyboardButton(f"🎵 Pages {int(index)+2}/{data['total']}", callback_data="pages")]
                 )
 
                 await query.edit_message_reply_markup( 
@@ -124,10 +140,10 @@ async def cb_handler(client: Bot, query: CallbackQuery):
                 buttons = data['buttons'][int(index)-1].copy()
 
                 buttons.append(
-                    [InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{int(index)-1}_{keyword}")]
+                    [InlineKeyboardButton("🎸 NEXT 🎸", callback_data=f"next_{int(index)-1}_{keyword}")]
                 )
                 buttons.append(
-                    [InlineKeyboardButton(f"📃 Pages {int(index)}/{data['total']}", callback_data="pages")]
+                    [InlineKeyboardButton(f"🎵 Pages {int(index)}/{data['total']}", callback_data="pages")]
                 )
 
                 await query.edit_message_reply_markup( 
@@ -138,10 +154,10 @@ async def cb_handler(client: Bot, query: CallbackQuery):
                 buttons = data['buttons'][int(index)-1].copy()
 
                 buttons.append(
-                    [InlineKeyboardButton("⏪ BACK", callback_data=f"back_{int(index)-1}_{keyword}"),InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{int(index)-1}_{keyword}")]
+                    [InlineKeyboardButton("🎹 BACK 🎹", callback_data=f"back_{int(index)-1}_{keyword}"),InlineKeyboardButton("NEXT 🎶", callback_data=f"next_{int(index)-1}_{keyword}")]
                 )
                 buttons.append(
-                    [InlineKeyboardButton(f"📃 Pages {int(index)}/{data['total']}", callback_data="pages")]
+                    [InlineKeyboardButton(f"🎵 Pages {int(index)}/{data['total']}", callback_data="pages")]
                 )
 
                 await query.edit_message_reply_markup( 
@@ -157,9 +173,9 @@ async def cb_handler(client: Bot, query: CallbackQuery):
         elif query.data == "start_data":
             await query.answer()
             keyboard = InlineKeyboardMarkup([
-                [InlineKeyboardButton("HELP", callback_data="help_data"),
-                    InlineKeyboardButton("ABOUT", callback_data="about_data")],
-                [InlineKeyboardButton("⭕️ JOIN OUR CHANNEL ⭕️", url="https://t.me/TroJanzHEX")]
+                [InlineKeyboardButton("࿈ HELP", callback_data="help_data"),
+                    InlineKeyboardButton("ABOUT ࿈", callback_data="about_data")],
+                [InlineKeyboardButton("〠 JOIN OUR CHANNEL 〠", url="https://t.me/ROCKHDMOVIES2021")]
             ])
 
             await query.message.edit_text(
@@ -172,9 +188,9 @@ async def cb_handler(client: Bot, query: CallbackQuery):
         elif query.data == "help_data":
             await query.answer()
             keyboard = InlineKeyboardMarkup([
-                [InlineKeyboardButton("BACK", callback_data="start_data"),
-                    InlineKeyboardButton("ABOUT", callback_data="about_data")],
-                [InlineKeyboardButton("⭕️ SUPPORT ⭕️", url="https://t.me/TroJanzSupport")]
+                [InlineKeyboardButton("☞ BACK", callback_data="start_data"),
+                    InlineKeyboardButton("ABOUT ☜", callback_data="about_data")],
+                [InlineKeyboardButton("꧁ SUPPORT ꧂", url="https://t.me/KicchaRequest")]
             ])
 
             await query.message.edit_text(
@@ -187,9 +203,9 @@ async def cb_handler(client: Bot, query: CallbackQuery):
         elif query.data == "about_data":
             await query.answer()
             keyboard = InlineKeyboardMarkup([
-                [InlineKeyboardButton("BACK", callback_data="help_data"),
-                    InlineKeyboardButton("START", callback_data="start_data")],
-                [InlineKeyboardButton("SOURCE CODE", url="https://github.com/TroJanzHEX/Auto-Filter-Bot")]
+                [InlineKeyboardButton("🎹 BACK 🎹", callback_data="help_data"),
+                    InlineKeyboardButton("💓 START 💓", callback_data="start_data")],
+                [InlineKeyboardButton("֎ Join Channel ֍", url="https://t.me/GD_FILMCLUB")]
             ])
 
             await query.message.edit_text(
@@ -198,6 +214,14 @@ async def cb_handler(client: Bot, query: CallbackQuery):
                 disable_web_page_preview=True
             )
 
+
+        elif query.data == "delallconfirm":
+            await query.message.delete()
+            await deleteallfilters(client, query.message)
+        
+        elif query.data == "delallcancel":
+            await query.message.reply_to_message.delete()
+            await query.message.delete()
 
     else:
         await query.answer("Thats not for you!!",show_alert=True)
