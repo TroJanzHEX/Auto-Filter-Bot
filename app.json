@@ -8,8 +8,8 @@
         "Telegram Bot",
         "TroJanzHEX"
     ],
-    "website": "https://TroJanzHEX.me",
-    "repository": "https://github.com/TroJanzHEX/Auto-Filter-Bot",
+    "website": "https://TroJanzHEX.me", 
+    "repository": "https://github.com/divishan016/Auto-Filter-Bot",
     "success_url": "https://telegram.dog/TroJanzHEX",
     "env": {
         "TG_BOT_TOKEN": {
