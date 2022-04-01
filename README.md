@@ -51,7 +51,7 @@ Thanks to [InfotelGroup](https://telegram.dog/InFoTelGroup) and [Erich Daniken](
 ## Installation
 
 ### Deploy to Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TroJanzHEX/Auto-Filter-Bot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Unknownvip/Auto-Filter-Bot)
 
 ### Deploy in your vps
 ```sh
