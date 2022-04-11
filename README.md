@@ -29,7 +29,7 @@
 
 
 #### You can call this as an Auto Filter Bot if you like :D
-#### Bot simply search for the files from provided channel according to given query and gives link to those files as buttons!
+#### Bot simply search for the files from provided channels according to the given query and gives link to those files as buttons!
 
 ## How to use the bot
 * Add user account to your channel !
