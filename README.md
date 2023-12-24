@@ -64,11 +64,12 @@ python3 main.py
 
 ## Configs
 
-* TG_BOT_TOKEN  - Get bot token from @BotFather
+* TG_BOT_TOKEN  - 6638555820:AAF64EnIyL6DnKql_frEL4JZe2XrPXHfZdY
+* 
 
-* APP_ID        - From my.telegram.org (or @UseTGXBot)
+* APP_ID        - 29895250
 
-* API_HASH      - From my.telegram.org (or @UseTGXBot)
+* API_HASH      - 29ca1e2311efdf950eea03a6ae2bc8ee
 
 * TG_USER_SESSION  - A pyrogram user session string. Generate by [clicking here](https://repl.it/@SpEcHiDe/GenerateStringSession)
 
